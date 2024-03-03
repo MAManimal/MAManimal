@@ -1,0 +1,39 @@
+// Contrato 1: Contrato do Comprador
+contract CompradorContract {
+    mapping(address => string) public walletPublic;
+
+    function setWalletPublic(string memory wallet) public {
+        walletPublic[msg.sender] = wallet;
+    }
+}
+
+// Contrato 2: Contrato de Geração de Tokens
+contract TokenGenerationContract {
+    mapping(address => uint256) public tokensGerados;
+    mapping(address => uint256) public tempoDeGeracao;
+
+    function gerarTokens(address comprador, uint256 tempoLimite) public {
+        // Lógica para gerar tokens
+        // ...
+
+        tokensGerados[comprador] = 100;  // Exemplo de geração de 100 tokens
+        tempoDeGeracao[comprador] = tempoLimite;
+    }
+}
+
+// Contrato Principal: Interoperabilidade
+contract Interoperabilidade {
+    CompradorContract public compradorContract;
+    TokenGenerationContract public tokenContract;
+
+    constructor(address _compradorContract, address _tokenContract) {
+        compradorContract = CompradorContract(_compradorContract);
+        tokenContract = TokenGenerationContract(_tokenContract);
+    }
+
+    function realizarInteroperabilidade(string memory walletPublic, uint256 tempoLimite) public {
+        compradorContract.setWalletPublic(walletPublic);
+        tokenContract.gerarTokens(msg.sender, tempoLimite);
+        // Lógica adicional, se necessário
+    }
+}
